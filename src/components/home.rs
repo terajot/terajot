@@ -8,8 +8,7 @@ use tokio::sync::mpsc::UnboundedSender;
 
 use super::{Component, Frame};
 use crate::{
-  action::Action,
-  config::{Config, KeyBindings},
+  action::Action, config::{Config, KeyBindings}, db_reader::DbReader, models::stack::Stack
 };
 
 #[derive(Default)]
@@ -26,6 +25,15 @@ impl Home {
 
 impl Component for Home {
   fn register_action_handler(&mut self, tx: UnboundedSender<Action>) -> Result<()> {
+
+    
+    Stack::save(&Stack {
+      id: 0,
+      name: "New Stack".to_string(),
+      count: 0
+    })?;
+
+        
     self.command_tx = Some(tx);
     Ok(())
   }
@@ -49,4 +57,5 @@ impl Component for Home {
     Ok(())
   }
 }
+
 
