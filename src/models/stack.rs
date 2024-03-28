@@ -61,7 +61,7 @@ impl DbReader<Stack> for Stack {
             id: 0,
             name: "My Stack".to_string(),
             count: 5
-        }));;
+        }));
     }
 
     fn delete(&self) -> Result<()> {
