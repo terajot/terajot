@@ -6,6 +6,8 @@ use ratatui::{prelude::*, widgets::*};
 use super::Component;
 use crate::{action::Action, tui::Frame};
 
+
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct FpsCounter {
   app_start_time: Instant,

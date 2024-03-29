@@ -2,6 +2,7 @@ use color_eyre::eyre::Result;
 use chrono::{DateTime, Utc};
 use native_db::*;
 use native_model::{native_model, Model};
+use ratatui::text::Text;
 use serde::{Deserialize, Serialize};
 
 use crate::db_reader::DbReader;
@@ -68,3 +69,8 @@ impl DbReader<Stack> for Stack {
         Ok(())
     }
 }
+
+
+
+
+
