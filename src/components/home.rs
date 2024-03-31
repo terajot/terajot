@@ -80,28 +80,35 @@ impl Home {
         );
     }
 
-    fn handle_keys_for_stack_mode(&mut self, key: KeyEvent) {
+    fn handle_keys_for_stack_mode(&mut self, key: KeyEvent) -> Result<Option<Action>> {
         let mut selected_index = self.stack_state.selected().unwrap_or(0);
+        let mut return_action = None;
         match key.code {
             KeyCode::Down => {
                 selected_index = min(selected_index + 1, self.stacks.len() - 1);
+                return_action = Some(Action::Render);
             }
             KeyCode::Up => {
                 if selected_index > 0 {
                     selected_index -= 1;
+                    return_action = Some(Action::Render);
                 }
             }
             KeyCode::Enter => {
                 if let Some(selected) = self.stack_state.selected() {
-                    self.mode = Mode::BrowseEntries
+                    self.mode = Mode::BrowseEntries;
+                    return_action = Some(Action::Render);
                 }
             }
             _ => {}
         }
 
         self.stack_state.select(Some(selected_index));
+        Ok(return_action)
     }
-    fn handle_keys_for_entry_mode(&mut self, key: KeyEvent) {}
+    fn handle_keys_for_entry_mode(&mut self, key: KeyEvent) -> Result<Option<Action>> {
+        Ok(None)
+    }
 }
 
 impl Component for Home {
@@ -113,13 +120,13 @@ impl Component for Home {
     }
 
     fn handle_key_events(&mut self, key: KeyEvent) -> Result<Option<Action>> {
-        match self.mode {
+        let a = match self.mode {
             Mode::BrowseStacks => self.handle_keys_for_stack_mode(key),
             Mode::BrowseEntries => self.handle_keys_for_entry_mode(key),
-            _ => {}
+            _ => Ok(None),
         };
 
-        Ok(None)
+        a
     }
 
     fn register_action_handler(&mut self, tx: UnboundedSender<Action>) -> Result<()> {
