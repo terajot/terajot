@@ -1,12 +1,9 @@
-use color_eyre::eyre::Result;
 use chrono::{DateTime, Utc};
+use color_eyre::eyre::Result;
 use native_db::*;
 use native_model::{native_model, Model};
 use ratatui::text::Text;
 use serde::{Deserialize, Serialize};
-
-use crate::db_reader::DbReader;
-
 
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
@@ -16,20 +13,29 @@ pub struct Stack {
     #[primary_key]
     pub id: u32,
     pub name: String,
-    pub count: u8
+    pub count: u8,
 }
 
-impl DbReader<Stack> for Stack {
-    fn save(model: &Stack) -> Result<()> {
-       
+impl Clone for Stack {
+    fn clone(&self) -> Self {
+        Self {
+            id: self.id,
+            name: self.name.clone(),
+            count: self.count,
+        }
+    }
+}
+
+impl Stack {
+    pub fn save(model: &Stack) -> Result<()> {
         Ok(())
     }
 
-    fn update(&mut self) -> Result<()> {
+    pub fn update(&mut self) -> Result<()> {
         Ok(())
     }
 
-    fn get_all() -> Vec<Stack> {
+    pub fn get_all() -> Vec<Stack> {
         let stacks = vec![
             Stack {
                 id: 1,
@@ -54,23 +60,17 @@ impl DbReader<Stack> for Stack {
         ];
 
         return stacks;
-                 
     }
 
-    fn get_by_id(id: u32) -> Option<Result<Stack>> {
+    pub fn get_by_id(id: u32) -> Option<Result<Stack>> {
         return Some(Ok(Stack {
             id: 0,
             name: "My Stack".to_string(),
-            count: 5
+            count: 5,
         }));
     }
 
-    fn delete(&self) -> Result<()> {
+    pub fn delete(&self) -> Result<()> {
         Ok(())
     }
 }
-
-
-
-
-
