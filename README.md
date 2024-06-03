@@ -1,4 +1,7 @@
 # Terajot  -_Your personal log re-imagined_
+
+⚠️  This project is currently an unstable WIP ⚠️
+
 ________
 Terajot is a notebook for the CLI enthusiast. It aims to
 **get out of your way so you can capture thoughts.**
